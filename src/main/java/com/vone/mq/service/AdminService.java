@@ -144,14 +144,16 @@ public class AdminService {
         }
 
         String res = HttpRequest.sendGet(url,p);
+        System.out.println("发送 sendGet结果是 "+res);
 
-        if (res!=null && res.equals("success")){
+        if (res!=null && res.equals("{\"success\":true}")){
             if (payOrder.getState()==0){
                 tmpPriceDao.delprice(payOrder.getType()+"-"+payOrder.getReallyPrice());
             }
             payOrderDao.setState(1,payOrder.getId());
             return ResUtil.success();
         }else{
+            System.out.println("here 3");
             return ResUtil.error(-2,res);
         }
 

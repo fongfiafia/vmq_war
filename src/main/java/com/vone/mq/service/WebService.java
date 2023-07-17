@@ -241,14 +241,14 @@ public class WebService {
             }
 
             String res = HttpRequest.sendGet(url,p);
+            System.out.println("发送 sendGet结果是 "+res);
 
-            if (res!=null && res.equals("success")){
+            if (res!=null && res.equals("{\"success\":true}")){
                 return ResUtil.success();
             }else {
                 //通知失败，设置状态为2
                 payOrderDao.setState(2,payOrder.getId());
                 return ResUtil.error("通知异步地址失败");
-
             }
         }
     }
