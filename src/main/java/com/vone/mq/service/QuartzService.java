@@ -22,7 +22,7 @@ public class QuartzService {
     private TmpPriceDao tmpPriceDao;
 
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(cron = "0 0 1 * * ?")
     public void timerToZZP(){
 
         try {
@@ -50,8 +50,5 @@ public class QuartzService {
             setting.setVvalue("0");
             settingDao.save(setting);
         }
-
-
-
     }
 }
