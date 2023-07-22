@@ -11,6 +11,8 @@ import com.vone.mq.dto.CommonRes;
 import com.vone.mq.dto.CreateOrderRes;
 import com.vone.mq.service.WebService;
 import com.vone.mq.utils.ResUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +31,8 @@ import java.util.Map;
 
 @RestController
 public class WebController {
+
+    private static  final Logger logger = LoggerFactory.getLogger(WebController.class);
 
     @Autowired
     private WebService webService;
@@ -94,7 +98,7 @@ public class WebController {
                 Result result = multiFormatReader.decode(binaryBitmap, hints);
 
                 //stream.print(result.getText());
-                System.out.println(result.getText());
+                logger.info(result.getText());
                 return ResUtil.success(result.getText());
             } catch (Exception e) {
                 e.printStackTrace();

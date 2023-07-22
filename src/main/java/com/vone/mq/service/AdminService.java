@@ -1,5 +1,6 @@
 package com.vone.mq.service;
 
+import com.vone.mq.controller.WebController;
 import com.vone.mq.dao.PayOrderDao;
 import com.vone.mq.dao.PayQrcodeDao;
 import com.vone.mq.dao.SettingDao;
@@ -12,6 +13,8 @@ import com.vone.mq.entity.Setting;
 import com.vone.mq.utils.Arith;
 import com.vone.mq.utils.HttpRequest;
 import com.vone.mq.utils.ResUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,7 +35,7 @@ import javax.persistence.criteria.*;
 
 @Service
 public class AdminService {
-
+    private static  final Logger logger = LoggerFactory.getLogger(WebController.class);
     @Autowired
     private SettingDao settingDao;
     @Autowired
@@ -144,6 +147,7 @@ public class AdminService {
         }
 
         String res = HttpRequest.sendGet(url,p);
+        logger.info("发送 sendGet结果是 "+res);
 
         if (res!=null && res.equals("{\"success\":true}")){
             if (payOrder.getState()==0){
@@ -152,7 +156,6 @@ public class AdminService {
             payOrderDao.setState(1,payOrder.getId());
             return ResUtil.success();
         }else{
-            System.out.println("here 3");
             return ResUtil.error(-2,res);
         }
 

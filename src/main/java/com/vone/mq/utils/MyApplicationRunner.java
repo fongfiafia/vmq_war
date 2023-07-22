@@ -1,7 +1,10 @@
 package com.vone.mq.utils;
 
+import com.vone.mq.controller.WebController;
 import com.vone.mq.dao.SettingDao;
 import com.vone.mq.entity.Setting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,17 +16,19 @@ import java.util.Date;
 @Component
 public class MyApplicationRunner implements ApplicationRunner {
 
+    private static  final Logger logger = LoggerFactory.getLogger(WebController.class);
+
     @Autowired
     private SettingDao settingDao;
 
     @Override
     public void run(ApplicationArguments var1) {
-        System.out.println("开始初始化操作...");
+        logger.info("开始初始化操作...");
 
         //查询是不是首次启动，如果是就创建基础的设置数据
         int row = (int) settingDao.count();
         if (row==0){
-            System.out.println("检测到系统为首次启动，正在进行数据库初始化...");
+            logger.info("检测到系统为首次启动，正在进行数据库初始化...");
             Setting setting = new Setting();
             //管理员账号
             setting.setVkey("user");
@@ -85,7 +90,7 @@ public class MyApplicationRunner implements ApplicationRunner {
             settingDao.save(setting);
 
         }
-        System.out.println("系统启动完成！");
+        logger.info("系统启动完成！");
 
     }
 

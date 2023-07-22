@@ -1,10 +1,13 @@
 package com.vone.mq.service;
 
+import com.vone.mq.controller.WebController;
 import com.vone.mq.dao.PayOrderDao;
 import com.vone.mq.dao.SettingDao;
 import com.vone.mq.dao.TmpPriceDao;
 import com.vone.mq.entity.PayOrder;
 import com.vone.mq.entity.Setting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -21,12 +24,13 @@ public class QuartzService {
     @Autowired
     private TmpPriceDao tmpPriceDao;
 
-
-    @Scheduled(cron = "0 0 1 * * ?")
+    private static  final Logger logger = LoggerFactory.getLogger(WebController.class);
+    @Scheduled(fixedRate = 1000)
     public void timerToZZP(){
 
+//         6个小时执行一次
         try {
-            System.out.println("开始清理过期订单...");
+            logger.info("开始清理过期订单...");
             String timeout = settingDao.findById("close").get().getVvalue();
             String closeTime = String.valueOf(new Date().getTime());
             timeout = String.valueOf(new Date().getTime() - Integer.valueOf(timeout)*60*1000);
@@ -37,7 +41,7 @@ public class QuartzService {
             for (PayOrder payOrder: payOrders) {
                 tmpPriceDao.delprice(payOrder.getType()+"-"+payOrder.getReallyPrice());
             }
-            System.out.println(row+"成功清理" + row + "个订单");
+            logger.info(row+"成功清理" + row + "个订单");
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package com.vone.mq.service;
 
+import com.vone.mq.controller.WebController;
 import com.vone.mq.dao.PayOrderDao;
 import com.vone.mq.dao.PayQrcodeDao;
 import com.vone.mq.dao.SettingDao;
@@ -12,6 +13,8 @@ import com.vone.mq.entity.Setting;
 import com.vone.mq.utils.Arith;
 import com.vone.mq.utils.HttpRequest;
 import com.vone.mq.utils.ResUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -23,6 +26,7 @@ import java.util.Map;
 
 @Service
 public class WebService {
+    private static  final Logger logger = LoggerFactory.getLogger(WebController.class);
     @Autowired
     private SettingDao settingDao;
     @Autowired
@@ -241,7 +245,7 @@ public class WebService {
             }
 
             String res = HttpRequest.sendGet(url,p);
-            System.out.println("发送 sendGet结果是 "+res);
+            logger.info("发送 sendGet结果是 "+res);
 
             if (res!=null && res.equals("{\"success\":true}")){
                 return ResUtil.success();
