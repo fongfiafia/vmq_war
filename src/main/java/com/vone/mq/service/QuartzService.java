@@ -25,10 +25,11 @@ public class QuartzService {
     private TmpPriceDao tmpPriceDao;
 
     private static  final Logger logger = LoggerFactory.getLogger(WebController.class);
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 21600000)
     public void timerToZZP(){
 
 //         6个小时执行一次
+
         try {
             logger.info("开始清理过期订单...");
             String timeout = settingDao.findById("close").get().getVvalue();
