@@ -25,7 +25,7 @@ public class QuartzService {
     private TmpPriceDao tmpPriceDao;
 
     private static  final Logger logger = LoggerFactory.getLogger(WebController.class);
-    @Scheduled(fixedRate = 21600000)
+    @Scheduled(fixedRate = 30000)
     public void timerToZZP(){
 
 //         6个小时执行一次
